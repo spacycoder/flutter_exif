@@ -18,6 +18,7 @@ class _MyAppState extends State<MyApp> {
   final ImagePicker _picker = ImagePicker();
   Uint8List imageToRead;
   String _response = '(please, wait)';
+
   @override
   void initState() {
     super.initState();

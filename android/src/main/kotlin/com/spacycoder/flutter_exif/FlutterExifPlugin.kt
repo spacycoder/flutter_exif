@@ -34,8 +34,9 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
         @JvmStatic
         fun registerWith(registrar: Registrar) {
             val channel = MethodChannel(registrar.messenger(), FLUTTER_EXIF_CHANNEL)
-            channel.setMethodCallHandler(FlutterExifPlugin())
-
+            val instance = FlutterExifPlugin()
+            channel.setMethodCallHandler(instance)
+            instance.context = registrar.context()
         }
     }
 
@@ -179,8 +180,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
                     val bytes = call.arguments<ByteArray>()
                             ?: throw IllegalArgumentException("Image argument is required")
                     val exif = ExifInterface(bytes.inputStream())
-                    val tagValue = exif.latLong
-                    result.success(tagValue)
+                    result.success(exif.latLong)
                 } catch (e: IllegalArgumentException) {
                     return result.error("ARGUMENT_ERROR", e.message, null)
                 }
@@ -190,8 +190,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
                     val bytes = call.arguments<ByteArray>()
                             ?: throw IllegalArgumentException("Image argument is required")
                     val exif = ExifInterface(bytes.inputStream())
-                    val tagValue = exif.rotationDegrees
-                    result.success(tagValue)
+                    result.success(exif.rotationDegrees)
                 } catch (e: IllegalArgumentException) {
                     return result.error("ARGUMENT_ERROR", e.message, null)
                 }
@@ -201,8 +200,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
                     val bytes = call.arguments<ByteArray>()
                             ?: throw IllegalArgumentException("Image argument is required")
                     val exif = ExifInterface(bytes.inputStream())
-                    val tagValue = exif.thumbnail
-                    result.success(tagValue)
+                    result.success(exif.thumbnail)
                 } catch (e: IllegalArgumentException) {
                     return result.error("ARGUMENT_ERROR", e.message, null)
                 }
@@ -212,8 +210,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
                     val bytes = call.arguments<ByteArray>()
                             ?: throw IllegalArgumentException("Image argument is required")
                     val exif = ExifInterface(bytes.inputStream())
-                    val tagValue = exif.thumbnailBytes
-                    result.success(tagValue)
+                    result.success(exif.thumbnailBytes)
                 } catch (e: IllegalArgumentException) {
                     return result.error("ARGUMENT_ERROR", e.message, null)
                 }
@@ -223,8 +220,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
                     val bytes = call.arguments<ByteArray>()
                             ?: throw IllegalArgumentException("Image argument is required")
                     val exif = ExifInterface(bytes.inputStream())
-                    val tagValue = exif.thumbnailBytes
-                    result.success(tagValue)
+                    result.success(exif.thumbnailBytes)
                 } catch (e: IllegalArgumentException) {
                     return result.error("ARGUMENT_ERROR", e.message, null)
                 }
@@ -234,19 +230,110 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
                     val bytes = call.arguments<ByteArray>()
                             ?: throw IllegalArgumentException("Image argument is required")
                     val exif = ExifInterface(bytes.inputStream())
-                    val tagValue = exif.thumbnailRange
-                    result.success(tagValue)
+                    result.success(exif.thumbnailRange)
                 } catch (e: IllegalArgumentException) {
                     return result.error("ARGUMENT_ERROR", e.message, null)
                 }
             }
-            "getThumbnailRange" -> {
+            "hasAttribute" -> {
+                try {
+                    val (bytes, tag) = getImageAndTag(call)
+                    val exif = ExifInterface(bytes.inputStream())
+                    result.success(exif.hasAttribute(tag))
+                } catch (e: IllegalArgumentException) {
+                    return result.error("ARGUMENT_ERROR", e.message, null)
+                }
+            }
+            "hasThumbnail" -> {
                 try {
                     val bytes = call.arguments<ByteArray>()
                             ?: throw IllegalArgumentException("Image argument is required")
                     val exif = ExifInterface(bytes.inputStream())
-                    val tagValue = exif.thumbnailRange
-                    result.success(tagValue)
+                    result.success(exif.hasThumbnail())
+                } catch (e: IllegalArgumentException) {
+                    return result.error("ARGUMENT_ERROR", e.message, null)
+                }
+            }
+            "isFlipped" -> {
+                try {
+                    val bytes = call.arguments<ByteArray>()
+                            ?: throw IllegalArgumentException("Image argument is required")
+                    val exif = ExifInterface(bytes.inputStream())
+                    result.success(exif.isFlipped)
+                } catch (e: IllegalArgumentException) {
+                    return result.error("ARGUMENT_ERROR", e.message, null)
+                }
+            }
+            "isSupportedMimeType" -> {
+                try {
+                    val mimeType = call.arguments<String>()
+                    result.success(ExifInterface.isSupportedMimeType(mimeType))
+                } catch (e: IllegalArgumentException) {
+                    return result.error("ARGUMENT_ERROR", e.message, null)
+                }
+            }
+            "isThumbnailCompressed" -> {
+                try {
+                    val bytes = call.arguments<ByteArray>()
+                            ?: throw IllegalArgumentException("Image argument is required")
+                    val exif = ExifInterface(bytes.inputStream())
+                    result.success(exif.isThumbnailCompressed)
+                } catch (e: IllegalArgumentException) {
+                    return result.error("ARGUMENT_ERROR", e.message, null)
+                }
+            }
+            "resetOrientation" -> {
+                try {
+                    val bytes = call.arguments<ByteArray>()
+                            ?: throw IllegalArgumentException("Image argument is required")
+                    val (exif, tmpFile) = getExifInterfaceAndFile(bytes)
+                    exif.resetOrientation()
+                    exif.saveAttributes()
+                    result.success(tmpFile.readBytes())
+                    tmpFile.delete()
+                } catch (e: IllegalArgumentException) {
+                    return result.error("ARGUMENT_ERROR", e.message, null)
+                }
+            }
+            "rotate" -> {
+                val degree = call.argument<Int>("degree")
+                if (degree == null) {
+                    result.error("ARGUMENT_ERROR", "degree is required", null)
+                    return
+                }
+                try {
+                    val bytes = call.arguments<ByteArray>()
+                            ?: throw IllegalArgumentException("Image argument is required")
+                    val (exif, tmpFile) = getExifInterfaceAndFile(bytes)
+                    exif.rotate(degree)
+                    exif.saveAttributes()
+                    result.success(tmpFile.readBytes())
+                    tmpFile.delete()
+                } catch (e: IllegalArgumentException) {
+                    return result.error("ARGUMENT_ERROR", e.message, null)
+                }
+            }
+            "setLatLong" -> {
+                val latitude = call.argument<Double>("latitude")
+                if (latitude == null) {
+                    result.error("ARGUMENT_ERROR", "latitude is required", null)
+                    return
+                }
+
+                val longitude = call.argument<Double>("longitude")
+                if (longitude == null) {
+                    result.error("ARGUMENT_ERROR", "longitude is required", null)
+                    return
+                }
+
+                try {
+                    val bytes = call.arguments<ByteArray>()
+                            ?: throw IllegalArgumentException("Image argument is required")
+                    val (exif, tmpFile) = getExifInterfaceAndFile(bytes)
+                    exif.setLatLong(latitude, longitude)
+                    exif.saveAttributes()
+                    result.success(tmpFile.readBytes())
+                    tmpFile.delete()
                 } catch (e: IllegalArgumentException) {
                     return result.error("ARGUMENT_ERROR", e.message, null)
                 }

@@ -57,22 +57,22 @@ class FlutterExif {
   /// If there are valid latitude and longitude values in the image, this method returns a double array where the first element is
   /// the latitude and the second element is the longitude. Otherwise, it returns null.
   static Future<Float64List> getLatLong(Uint8List imageData) =>
-      channel.invokeMethod<Float64List>("getLatLong", {"image": imageData});
+      channel.invokeMethod<Float64List>("getLatLong",imageData);
 
   /// Returns the rotation degrees for the current image orientation. If the image is flipped, i.e., isFlipped() returns true,
   /// the rotation degrees will be base on the assumption that the image is first flipped horizontally (along Y-axis), and then do the rotation.
   /// For example, ORIENTATION_TRANSPOSE will be interpreted as flipped horizontally first, and then rotate 270 degrees clockwise.
   static Future<int> getRotationDegrees(Uint8List imageData) =>
-      channel.invokeMethod<int>("getRotationDegrees", {"image": imageData});
+      channel.invokeMethod<int>("getRotationDegrees", imageData);
 
   /// Returns the JPEG compressed thumbnail inside the image file, or null if there is no JPEG compressed thumbnail.
   /// The returned data can be decoded using BitmapFactory#decodeByteArray(byte[],int,int)
   static Future<Uint8List> getThumbnail(Uint8List imageData) =>
-      channel.invokeMethod<Uint8List>("getThumbnail", {"image": imageData});
+      channel.invokeMethod<Uint8List>("getThumbnail",imageData);
 
   /// Returns the thumbnail bytes inside the image file, regardless of the compression type of the thumbnail ima
   static Future<Uint8List> humbnailBytes(Uint8List imageData) => channel
-      .invokeMethod<Uint8List>("getThumbnailBytes", {"image": imageData});
+      .invokeMethod<Uint8List>("getThumbnailBytes", imageData);
 
   /// Returns the offset and length of thumbnail inside the image file, or
   /// null if either there is no thumbnail or the thumbnail bytes are stored non-consecutively.
@@ -86,15 +86,15 @@ class FlutterExif {
 
   /// Returns true if the image file has a thumbnail.
   static Future<bool> hasThumbnail(Uint8List imageData) =>
-      channel.invokeMethod<bool>("hasThumbnail", {"image": imageData});
+      channel.invokeMethod<bool>("hasThumbnail", imageData);
 
   /// Returns if the current image orientation is flipped.
   static Future<bool> isFlipped(Uint8List imageData) =>
-      channel.invokeMethod<bool>("isFlipped", {"image": imageData});
+      channel.invokeMethod<bool>("isFlipped", imageData);
 
   /// Returns whether ExifInterface currently supports reading data from the specified mime type or not.
   static Future<bool> isSupportedMimeType(String mimeType) =>
-      channel.invokeMethod<bool>("isSupportedMimeType", {"mimeType": mimeType});
+      channel.invokeMethod<bool>("isSupportedMimeType", mimeType);
 
   /// Returns true if thumbnail image is JPEG Compressed, or false if either thumbnail image does not exist or thumbnail image is uncompressed.
   static Future<bool> isThumbnailCompressed(Uint8List imageData) =>
@@ -108,9 +108,6 @@ class FlutterExif {
   static Future<Uint8List> rotate(Uint8List imageData, int degree) =>
       channel.invokeMethod<Uint8List>(
           "rotate", {"image": imageData, "degree": degree});
-setLatLongde(Uint8List imageData, double altitude) =>
-      channel.invokeMethod<Uint8List>(
-          "setAltitude", {"image": imageData, "altitude": altitude});
 
   /// Sets the latitude and longitude values.
   static Future<Uint8List> setLatLong(
