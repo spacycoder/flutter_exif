@@ -52,7 +52,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Flutter Rust FFI'),
+          title: const Text('Flutter'),
         ),
         body: Center(
           child: Column(

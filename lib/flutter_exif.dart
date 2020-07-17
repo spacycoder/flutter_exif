@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 
 class FlutterExif {
   static const channel = MethodChannel("flutter_exif_channel");
-
   FlutterExif.fromPath(String pathToImage) {
     channel.invokeMethod("initPath", pathToImage);
   }
@@ -23,7 +22,8 @@ class FlutterExif {
   Future<void> saveAttributes() => channel.invokeMethod("saveAttributes");
 
   /// Returns the value of the specified tag or null if there is no such tag in the image file.
-  Future<Uint8List> get imageData => channel.invokeMethod<Uint8List>("getImageData");
+  Future<Uint8List> get imageData =>
+      channel.invokeMethod<Uint8List>("getImageData");
 
   /// Returns the value of the specified tag or null if there is no such tag in the image file.
   Future<String> getAttribute(String tag) =>
