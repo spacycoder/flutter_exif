@@ -99,7 +99,6 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
         if (exifInterface == null) {
             return result.error("EXIF_ERROR", "exif not initialized", null)
         }
-
         val exif = exifInterface!!
 
         when (call.method) {
@@ -129,6 +128,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
                 }
 
                 exif.setAttribute(tag, tagValue)
+                result.success(true)
             }
             "getAttribute" -> {
                 val tag = call.arguments<String>()
@@ -177,9 +177,11 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
             }
             "flipHorizontally" -> {
                 exif.flipHorizontally()
+                result.success(true)
             }
             "flipVertically" -> {
                 exif.flipVertically()
+                result.success(true)
             }
             "getAltitude" -> {
                 val defaultValue = call.arguments<Double>()
@@ -226,6 +228,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
 
             "resetOrientation" -> {
                 exif.resetOrientation()
+                result.success(true)
             }
             "rotate" -> {
                 val degree = call.arguments<Int>()
@@ -233,6 +236,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
                     return result.error("ARGUMENT_ERROR", "degree is required", null)
                 }
                 exif.rotate(degree)
+                result.success(true)
             }
             "setLatLong" -> {
                 val latitude = call.argument<Double>("latitude")
@@ -247,6 +251,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
 
                 try {
                     exif.setLatLong(latitude, longitude)
+                    result.success(true)
                 } catch (e: Exception) {
                     result.error("ERROR", e.message, null)
                 }
