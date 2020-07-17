@@ -16,8 +16,9 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final ImagePicker _picker = ImagePicker();
-  Uint8List imageToRead;
   String _response = '(please, wait)';
+  FlutterExif exif;
+  Uint8List imageToRead;
 
   @override
   void initState() {
@@ -25,14 +26,11 @@ class _MyAppState extends State<MyApp> {
   }
 
   void readFile() async {
-    if (imageToRead == null) {
-      final pickerImage = await _picker.getImage(source: ImageSource.gallery);
-      Uint8List bytes = await pickerImage.readAsBytes();
-      imageToRead = await FlutterExif.setAttribute(
-          bytes, TAG_USER_COMMENT, "my json structure");
+    if (exif == null) {
+      setFile();
     }
-    final result =
-        await FlutterExif.getAttribute(imageToRead, TAG_USER_COMMENT);
+    exif = FlutterExif.fromBytes(imageToRead);
+    final result = await exif.getAttribute(TAG_USER_COMMENT);
     print(result);
 
     setState(() {
@@ -43,8 +41,10 @@ class _MyAppState extends State<MyApp> {
   void setFile() async {
     final pickerImage = await _picker.getImage(source: ImageSource.gallery);
     Uint8List bytes = await pickerImage.readAsBytes();
-    imageToRead = await FlutterExif.setAttribute(
-        bytes, TAG_USER_COMMENT, "my json structure");
+    exif = FlutterExif.fromBytes(bytes);
+    exif.setAttribute(TAG_USER_COMMENT, "my json structure");
+    exif.saveAttributes();
+    imageToRead = await exif.imageData;
   }
 
   @override
