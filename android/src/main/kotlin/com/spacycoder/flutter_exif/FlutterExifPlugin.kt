@@ -55,6 +55,10 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
         return Pair(ExifInterface(tmpFile), tmpFile)
     }
 
+    private fun getExifInterfaceFromPath(imagePath: String): ExifInterface {
+        return ExifInterface(imagePath)
+    }
+
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
         when (call.method) {
             "setAttribute" -> {
@@ -70,6 +74,26 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
                     exif.saveAttributes()
                     result.success(tmpFile.readBytes())
                     tmpFile.delete()
+                } catch (e: IllegalArgumentException) {
+                    return result.error("ARGUMENT_ERROR", e.message, null)
+                }
+            }
+            "setAttributeFromPath" -> {
+                val tagValue = call.argument<String>("tagValue")
+                if (tagValue == null) {
+                    result.error("ARGUMENT_ERROR", "tagValue is required", null)
+                    return
+                }
+                try {
+                    val tag = call.argument<String>("tag")
+                              ?: throw IllegalArgumentException("Tag argument is required")
+                    val path = call.argument<String>("imagePath")
+                              ?: throw IllegalArgumentException("ImagePath argument is required")
+                    val exif = getExifInterfaceFromPath(path)
+                    exif.setAttribute(tag, tagValue)
+                    exif.saveAttributes()
+                    val file = File(path)
+                    result.success(file.readBytes())
                 } catch (e: IllegalArgumentException) {
                     return result.error("ARGUMENT_ERROR", e.message, null)
                 }

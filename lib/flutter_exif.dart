@@ -38,6 +38,11 @@ class FlutterExif {
       channel.invokeMethod<Uint8List>("setAttribute",
           {"tag": tag, "tagValue": tagValue, "image": imageData});
 
+  static Future<Uint8List> setAttributeFromPath(
+          String imagePath, String tag, String tagValue) =>
+      channel.invokeMethod<Uint8List>("setAttributeFromPath",
+          {"tag": tag, "tagValue": tagValue, "imagePath": imagePath});
+
   /// Flips the image horizontally.
   static Future<Uint8List> flipHorizontally(Uint8List imageData) =>
       channel.invokeMethod<Uint8List>("flipHorizontally",imageData);
