@@ -1,4 +1,4 @@
-group 'com.spacycoder.flutter_exif'
+group 'com.spacycoder.flutter_exif_plugin'
 version '1.0-SNAPSHOT'
 
 buildscript {

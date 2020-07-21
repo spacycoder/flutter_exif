@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart';
 
 class FlutterExif {
-  static const channel = MethodChannel("flutter_exif_channel");
+  static const channel = MethodChannel("flutter_exif_plugin_channel");
   FlutterExif.fromPath(String pathToImage) {
     channel.invokeMethod("initPath", pathToImage);
   }
@@ -48,7 +48,7 @@ class FlutterExif {
       channel.invokeMethod<Int64List>("getAttributeRange", tag);
 
   Future<void> setAttribute(String tag, String tagValue) =>
-      channel.invokeMethod<Uint8List>(
+      channel.invokeMethod<void>(
           "setAttribute", {"tag": tag, "tagValue": tagValue});
 
   /// Flips the image horizontally.

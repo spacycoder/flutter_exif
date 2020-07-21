@@ -1,11 +1,11 @@
 {
-    "name": "flutter_exif_example",
-    "short_name": "flutter_exif_example",
+    "name": "flutter_exif_plugin_example",
+    "short_name": "flutter_exif_plugin_example",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Demonstrates how to use the flutter_exif plugin.",
+    "description": "Demonstrates how to use the flutter_exif_plugin plugin.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

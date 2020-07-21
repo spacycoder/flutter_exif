@@ -1,9 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_exif/tags.dart';
+import 'package:flutter_exif_plugin/tags.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_exif/flutter_exif.dart';
+import 'package:flutter_exif_plugin/flutter_exif_plugin.dart';
 
 void main() {
   runApp(MyApp());
@@ -42,8 +42,8 @@ class _MyAppState extends State<MyApp> {
     final pickerImage = await _picker.getImage(source: ImageSource.gallery);
     Uint8List bytes = await pickerImage.readAsBytes();
     exif = FlutterExif.fromBytes(bytes);
-    exif.setAttribute(TAG_USER_COMMENT, "my json structure");
-    exif.saveAttributes();
+    await exif.setAttribute(TAG_USER_COMMENT, "my json structure");
+    await exif.saveAttributes();
     imageToRead = await exif.imageData;
   }
 

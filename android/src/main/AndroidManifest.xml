@@ -1,3 +1,3 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.spacycoder.flutter_exif">
+  package="com.spacycoder.flutter_exif_plugin">
 </manifest>

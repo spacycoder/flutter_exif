@@ -1,6 +1,6 @@
-# flutter_exif_example
+# flutter_exif_plugin_example
 
-Demonstrates how to use the flutter_exif plugin.
+Demonstrates how to use the flutter_exif_plugin plugin.
 
 ## Getting Started
 

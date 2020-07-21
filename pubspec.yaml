@@ -1,4 +1,4 @@
-name: flutter_exif
+name: flutter_exif_plugin
 description: A flutter plugin for reading and writing EXIF.
 version: 0.0.1
 author: spacycoder
@@ -19,5 +19,5 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.spacycoder.flutter_exif
+        package: com.spacycoder.flutter_exif_plugin
         pluginClass: FlutterExifPlugin

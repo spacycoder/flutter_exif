@@ -1,4 +1,4 @@
-package com.spacycoder.flutter_exif
+package com.spacycoder.flutter_exif_plugin
 
 import android.content.Context
 import androidx.annotation.NonNull;
@@ -13,7 +13,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar
 import java.io.File
 
 
-const val FLUTTER_EXIF_CHANNEL = "flutter_exif_channel"
+const val flutter_exif_plugin_CHANNEL = "flutter_exif_plugin_channel"
 
 /** FlutterExifPlugin */
 public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
@@ -23,7 +23,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
     private var currentImage: File? = null
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        channel = MethodChannel(flutterPluginBinding.binaryMessenger, FLUTTER_EXIF_CHANNEL)
+        channel = MethodChannel(flutterPluginBinding.binaryMessenger, flutter_exif_plugin_CHANNEL)
         channel.setMethodCallHandler(this)
         context = flutterPluginBinding.applicationContext
     }
@@ -35,7 +35,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
     companion object {
         @JvmStatic
         fun registerWith(registrar: Registrar) {
-            val channel = MethodChannel(registrar.messenger(), FLUTTER_EXIF_CHANNEL)
+            val channel = MethodChannel(registrar.messenger(), flutter_exif_plugin_CHANNEL)
             val instance = FlutterExifPlugin()
             channel.setMethodCallHandler(instance)
             instance.context = registrar.context()
@@ -43,7 +43,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
     }
 
     private fun getExifInterfaceAndFile(bytes: ByteArray): Pair<ExifInterface, File> {
-        val tmpFile = File.createTempFile("flutter_exif_image", null, context.cacheDir)
+        val tmpFile = File.createTempFile("flutter_exif_plugin_image", null, context.cacheDir)
         tmpFile.writeBytes(bytes)
 
         return Pair(ExifInterface(tmpFile), tmpFile)
@@ -64,7 +64,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
                     }
 
                     exifInterface = ExifInterface(currentImage!!)
-                    return result.success(true)
+                    return result.success()
                 } catch (e: Exception) {
                     return result.error("ERROR", e.message, null)
                 }
@@ -73,13 +73,12 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
                 try {
                     val bytes = call.arguments<ByteArray>()
                     if (bytes == null) {
-                        result.error("ARGUMENT_ERROR", "tagValue is required", null)
-                        return
+                        return result.error("ARGUMENT_ERROR", "tagValue is required", null)
                     }
                     val (exif, tmpFile) = getExifInterfaceAndFile(bytes)
                     exifInterface = exif
                     currentImage = tmpFile
-                    return result.success(true)
+                    return result.success()
                 } catch (e: Exception) {
                     return result.error("ERROR", e.message, null)
                 }
@@ -87,8 +86,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
             "isSupportedMimeType" -> {
                 val mimeType = call.arguments<String>()
                 if (mimeType == null) {
-                    result.error("ARGUMENT_ERROR", "tag is required", null)
-                    return
+                    return result.error("ARGUMENT_ERROR", "tag is required", null)
                 }
 
                 return result.success(ExifInterface.isSupportedMimeType(mimeType))
@@ -105,7 +103,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
             "saveAttributes" -> {
                 try {
                     exif.saveAttributes()
-                    result.success(true)
+                    result.success()
                 } catch (e: Exception) {
                     return result.error("EXIF_ERROR", e.message, null)
                 }
@@ -128,7 +126,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
                 }
 
                 exif.setAttribute(tag, tagValue)
-                result.success(true)
+                result.success()
             }
             "getAttribute" -> {
                 val tag = call.arguments<String>()
@@ -177,11 +175,11 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
             }
             "flipHorizontally" -> {
                 exif.flipHorizontally()
-                result.success(true)
+                result.success()
             }
             "flipVertically" -> {
                 exif.flipVertically()
-                result.success(true)
+                result.success()
             }
             "getAltitude" -> {
                 val defaultValue = call.arguments<Double>()
@@ -228,7 +226,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
 
             "resetOrientation" -> {
                 exif.resetOrientation()
-                result.success(true)
+                result.success()
             }
             "rotate" -> {
                 val degree = call.arguments<Int>()
@@ -236,7 +234,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
                     return result.error("ARGUMENT_ERROR", "degree is required", null)
                 }
                 exif.rotate(degree)
-                result.success(true)
+                result.success()
             }
             "setLatLong" -> {
                 val latitude = call.argument<Double>("latitude")
@@ -251,7 +249,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
 
                 try {
                     exif.setLatLong(latitude, longitude)
-                    result.success(true)
+                    result.success()
                 } catch (e: Exception) {
                     result.error("ERROR", e.message, null)
                 }
