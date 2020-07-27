@@ -64,7 +64,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
                     }
 
                     exifInterface = ExifInterface(currentImage!!)
-                    return result.success()
+                    return result.success(true)
                 } catch (e: Exception) {
                     return result.error("ERROR", e.message, null)
                 }
@@ -78,7 +78,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
                     val (exif, tmpFile) = getExifInterfaceAndFile(bytes)
                     exifInterface = exif
                     currentImage = tmpFile
-                    return result.success()
+                    return result.success(true)
                 } catch (e: Exception) {
                     return result.error("ERROR", e.message, null)
                 }
@@ -103,7 +103,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
             "saveAttributes" -> {
                 try {
                     exif.saveAttributes()
-                    result.success()
+                    result.success(true)
                 } catch (e: Exception) {
                     return result.error("EXIF_ERROR", e.message, null)
                 }
@@ -126,7 +126,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
                 }
 
                 exif.setAttribute(tag, tagValue)
-                result.success()
+                result.success(true)
             }
             "getAttribute" -> {
                 val tag = call.arguments<String>()
@@ -175,11 +175,11 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
             }
             "flipHorizontally" -> {
                 exif.flipHorizontally()
-                result.success()
+                result.success(true)
             }
             "flipVertically" -> {
                 exif.flipVertically()
-                result.success()
+                result.success(true)
             }
             "getAltitude" -> {
                 val defaultValue = call.arguments<Double>()
@@ -226,7 +226,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
 
             "resetOrientation" -> {
                 exif.resetOrientation()
-                result.success()
+                result.success(true)
             }
             "rotate" -> {
                 val degree = call.arguments<Int>()
@@ -234,7 +234,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
                     return result.error("ARGUMENT_ERROR", "degree is required", null)
                 }
                 exif.rotate(degree)
-                result.success()
+                result.success(true)
             }
             "setLatLong" -> {
                 val latitude = call.argument<Double>("latitude")
@@ -249,7 +249,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
 
                 try {
                     exif.setLatLong(latitude, longitude)
-                    result.success()
+                    result.success(true)
                 } catch (e: Exception) {
                     result.error("ERROR", e.message, null)
                 }
