@@ -2,7 +2,6 @@
 
 import 'dart:typed_data';
 
-
 /// Constants used for the Orientation Exif tag.
 const int ORIENTATION_UNDEFINED = 0;
 const int ORIENTATION_NORMAL = 1;
