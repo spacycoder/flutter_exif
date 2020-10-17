@@ -341,19 +341,18 @@ const int LIGHT_SOURCE_OTHER = 255;
 
 ///
 /// The flag used by [TAG_FLASH] to indicate whether the flash is fired.
-///
-final int FLAG_FLASH_FIRED = int.tryParse("00000001", radix: 2);
+/// "00000001"
+const int FLAG_FLASH_FIRED = 1;
 
 ///
 /// The flag used by [TAG_FLASH] to indicate strobe return light is not detected.
-///
-final int FLAG_FLASH_RETURN_LIGHT_NOT_DETECTED =
-    int.tryParse("00000100", radix: 2);
+/// "00000100"
+const int FLAG_FLASH_RETURN_LIGHT_NOT_DETECTED = 4;
 
 ///
 /// The flag used by [TAG_FLASH] to indicate strobe return light is detected.
-///
-final int FLAG_FLASH_RETURN_LIGHT_DETECTED = int.tryParse("00000110", radix: 2);
+/// "00000110"
+const int FLAG_FLASH_RETURN_LIGHT_DETECTED = 6;
 
 ///
 /// The flag used by [TAG_FLASH] to indicate the camera's flash mode is Compulsory flash
@@ -361,9 +360,8 @@ final int FLAG_FLASH_RETURN_LIGHT_DETECTED = int.tryParse("00000110", radix: 2);
 ///
 /// See also [FLAG_FLASH_MODE_COMPULSORY_SUPPRESSION]
 /// See also [FLAG_FLASH_MODE_AUTO]
-///
-final int FLAG_FLASH_MODE_COMPULSORY_FIRING =
-    int.tryParse("0000_1000", radix: 2);
+/// "00001000"
+const int FLAG_FLASH_MODE_COMPULSORY_FIRING = 8;
 
 ///
 /// The flag used by [TAG_FLASH] to indicate the camera's flash mode is Compulsory flash
@@ -371,27 +369,26 @@ final int FLAG_FLASH_MODE_COMPULSORY_FIRING =
 ///
 /// See also [FLAG_FLASH_MODE_COMPULSORY_FIRING]
 /// See also [FLAG_FLASH_MODE_AUTO]
-///
-final int FLAG_FLASH_MODE_COMPULSORY_SUPPRESSION =
-    int.tryParse("00010000", radix: 2);
+/// "00010000"
+const int FLAG_FLASH_MODE_COMPULSORY_SUPPRESSION = 16;
 
 ///
 /// The flag used by [TAG_FLASH] to indicate the camera's flash mode is Auto.
 ///
 /// See also [FLAG_FLASH_MODE_COMPULSORY_FIRING]
 /// See also [FLAG_FLASH_MODE_COMPULSORY_SUPPRESSION]
-///
-final int FLAG_FLASH_MODE_AUTO = int.tryParse("00011000", radix: 2);
+/// "00011000"
+const int FLAG_FLASH_MODE_AUTO = 24;
 
 ///
 /// The flag used by [TAG_FLASH] to indicate no flash function is present.
-///
-final int FLAG_FLASH_NO_FLASH_FUNCTION = int.tryParse("00100000", radix: 2);
+/// "00100000"
+const int FLAG_FLASH_NO_FLASH_FUNCTION = 32;
 
 ///
 /// The flag used by [TAG_FLASH] to indicate red-eye reduction is supported.
-///
-final int FLAG_FLASH_RED_EYE_SUPPORTED = int.tryParse("01000000", radix: 2);
+/// "01000000"
+const int FLAG_FLASH_RED_EYE_SUPPORTED = 64;
 
 ///
 /// The constant used by [TAG_SENSING_METHOD] to denote the image sensor type is not
@@ -775,18 +772,21 @@ const int DATA_LOSSY_JPEG = 34892;
 /// The constant used by [TAG_BITS_PER_SAMPLE].
 /// See JEITA CP-3451C Spec Section 6, Differences from Palette Color Images
 ///
+// ignore: non_constant_identifier_names
 final Int32List BITS_PER_SAMPLE_RGB = Int32List.fromList([8, 8, 8]);
 
 ///
 /// The constant used by [TAG_BITS_PER_SAMPLE].
 /// See JEITA CP-3451C Spec Section 4, Differences from Bilevel Images
 ///
+// ignore: non_constant_identifier_names
 final Int32List BITS_PER_SAMPLE_GREYSCALE_1 = Int32List.fromList([4]);
 
 ///
 /// The constant used by [TAG_BITS_PER_SAMPLE].
 /// See JEITA CP-3451C Spec Section 4, Differences from Bilevel Images
 ///
+// ignore: non_constant_identifier_names
 final Int32List BITS_PER_SAMPLE_GREYSCALE_2 = Int32List.fromList([8]);
 
 ///
