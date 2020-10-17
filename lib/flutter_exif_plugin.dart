@@ -47,9 +47,8 @@ class FlutterExif {
   Future<Int64List> getAttributeRange(String tag) =>
       channel.invokeMethod<Int64List>("getAttributeRange", tag);
 
-  Future<void> setAttribute(String tag, String tagValue) =>
-      channel.invokeMethod<void>(
-          "setAttribute", {"tag": tag, "tagValue": tagValue});
+  Future<void> setAttribute(String tag, String tagValue) => channel
+      .invokeMethod<void>("setAttribute", {"tag": tag, "tagValue": tagValue});
 
   /// Flips the image horizontally.
   Future<void> flipHorizontally() =>

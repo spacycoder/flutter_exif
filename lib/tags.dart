@@ -224,6 +224,7 @@ const String TAG_ARTIST = "Artist";
 ///
 ///
 const String TAG_COPYRIGHT = "Copyright";
+
 ///  Exif IFD Attribute Information
 ///  A. Tags related to version
 ///
@@ -237,6 +238,7 @@ const String TAG_EXIF_VERSION = "ExifVersion";
 ///  Flashpix format Ver. 1.0, this is indicated similarly to [TAG_EXIF_VERSION] by
 ///  recording "0100" as 4-byte ASCII.
 const String TAG_FLASHPIX_VERSION = "FlashpixVersion";
+
 /// B. Tags related to image data characteristics
 ///
 ///  The color space information tag is always recorded as the color space specifier.
@@ -298,6 +300,7 @@ const String TAG_COMPONENTS_CONFIGURATION = "ComponentsConfiguration";
 ///  is indicated in unit bits per pixel.
 ///
 const String TAG_COMPRESSED_BITS_PER_PIXEL = "CompressedBitsPerPixel";
+
 /// D. Tags related to user information
 ///
 ///  A tag for manufacturers of Exif/DCF writers to record any desired information.
@@ -311,6 +314,7 @@ const String TAG_MAKER_NOTE = "MakerNote";
 ///  [TAG_IMAGE_DESCRIPTION], and without the character code limitations of it.
 ///
 const String TAG_USER_COMMENT = "UserComment";
+
 ///  E. Tags related to related file information
 ///
 ///  This tag is used to record the name of an audio file related to the image data. The only
@@ -322,6 +326,7 @@ const String TAG_USER_COMMENT = "UserComment";
 ///  stream data. Audio files shall be recorded in conformance to the Exif audio format.
 ///
 const String TAG_RELATED_SOUND_FILE = "RelatedSoundFile";
+
 ///  F. Tags related to date and time
 ///
 ///  The date and time when the original image data was generated. For a DSC the date and time
@@ -392,6 +397,7 @@ const String TAG_SUBSEC_TIME_ORIGINAL = "SubSecTimeOriginal";
 ///  A tag used to record fractions of seconds for [TAG_DATETIME_DIGITIZED].
 ///
 const String TAG_SUBSEC_TIME_DIGITIZED = "SubSecTimeDigitized";
+
 /// G. Tags related to picture-taking condition
 ///
 ///  Exposure time, given in seconds.
@@ -817,6 +823,7 @@ const String TAG_DEVICE_SETTING_DESCRIPTION = "DeviceSettingDescription";
 ///  See also [SUBJECT_DISTANCE_RANGE_DISTANT_VIEW]
 ///
 const String TAG_SUBJECT_DISTANCE_RANGE = "SubjectDistanceRange";
+
 /// H. Other tags
 ///
 ///  This tag indicates an identifier assigned uniquely to each image. It is recorded as
