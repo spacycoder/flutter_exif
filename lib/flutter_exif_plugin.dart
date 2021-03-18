@@ -116,6 +116,6 @@ class FlutterExif {
 
   /// Sets the latitude and longitude values.
   Future<void> setLatLong(double latitude, double longitude) =>
-      channel.invokeMethod<Uint8List>(
+      channel.invokeMethod<bool>(
           "setLatLong", {"latitude": latitude, "longitude": longitude});
 }
