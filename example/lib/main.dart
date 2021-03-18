@@ -31,7 +31,9 @@ class _MyAppState extends State<MyApp> {
     }
     exif = FlutterExif.fromBytes(imageToRead);
     final result = await exif.getAttribute(TAG_USER_COMMENT);
+    final latlon = await exif.getLatLong();
     print(result);
+    print(latlon);
 
     setState(() {
       _response = result;
@@ -42,6 +44,7 @@ class _MyAppState extends State<MyApp> {
     final pickerImage = await _picker.getImage(source: ImageSource.gallery);
     Uint8List bytes = await pickerImage.readAsBytes();
     exif = FlutterExif.fromBytes(bytes);
+    await exif.setLatLong(20.0, 10.0);
     await exif.setAttribute(TAG_USER_COMMENT, "my json structure");
     await exif.saveAttributes();
     imageToRead = await exif.imageData;
@@ -61,13 +64,13 @@ class _MyAppState extends State<MyApp> {
                 'User comment :\n$_response\n',
                 textAlign: TextAlign.center,
               ),
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   readFile();
                 },
                 child: Text("read user comment"),
               ),
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   setFile();
                 },
