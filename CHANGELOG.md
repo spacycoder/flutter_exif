@@ -9,3 +9,6 @@ Improve description and fix static analysis warnings
 
 ## 0.0.4
 Fix formatting
+
+## 0.0.5
+Fix wrong return value from setLatLong
