@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
     Uint8List bytes = await pickerImage.readAsBytes();
     exif = FlutterExif.fromBytes(bytes);
     await exif.setLatLong(20.0, 10.0);
-    await exif.setAttribute(TAG_USER_COMMENT, "my json structure");
+    await exif.setAttribute(TAG_USER_COMMENT, 'my json structure');
     await exif.saveAttributes();
     imageToRead = await exif.imageData;
   }

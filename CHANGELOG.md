@@ -12,3 +12,6 @@ Fix formatting
 
 ## 0.0.5
 Fix wrong return value from setLatLong
+
+## 1.0.0
+Support null safety
