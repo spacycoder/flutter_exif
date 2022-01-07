@@ -1,22 +1,20 @@
 package com.spacycoder.flutter_exif_plugin
 
 import android.content.Context
-import androidx.annotation.NonNull;
+import androidx.annotation.NonNull
 import androidx.exifinterface.media.ExifInterface
-
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import io.flutter.plugin.common.PluginRegistry.Registrar
 import java.io.File
 
 
 const val flutter_exif_plugin_CHANNEL = "flutter_exif_plugin_channel"
 
 /** FlutterExifPlugin */
-public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
+class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
     private lateinit var channel: MethodChannel
     private lateinit var context: Context
     private var exifInterface: ExifInterface? = null
@@ -32,20 +30,9 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
         channel.setMethodCallHandler(null)
     }
 
-    companion object {
-        @JvmStatic
-        fun registerWith(registrar: Registrar) {
-            val channel = MethodChannel(registrar.messenger(), flutter_exif_plugin_CHANNEL)
-            val instance = FlutterExifPlugin()
-            channel.setMethodCallHandler(instance)
-            instance.context = registrar.context()
-        }
-    }
-
     private fun getExifInterfaceAndFile(bytes: ByteArray): Pair<ExifInterface, File> {
         val tmpFile = File.createTempFile("flutter_exif_plugin_image", null, context.cacheDir)
         tmpFile.writeBytes(bytes)
-
         return Pair(ExifInterface(tmpFile), tmpFile)
     }
 
@@ -54,9 +41,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
             "initPath" -> {
                 try {
                     val path = call.arguments<String>()
-                    if (path == null) {
-                        return result.error("ARGUMENT_ERROR", "image path is required", null)
-                    }
+                            ?: return result.error("ARGUMENT_ERROR", "image path is required", null)
 
                     currentImage = File(path)
                     if (!currentImage!!.exists()) {
@@ -72,9 +57,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
             "initBytes" -> {
                 try {
                     val bytes = call.arguments<ByteArray>()
-                    if (bytes == null) {
-                        return result.error("ARGUMENT_ERROR", "tagValue is required", null)
-                    }
+                            ?: return result.error("ARGUMENT_ERROR", "tagValue is required", null)
                     val (exif, tmpFile) = getExifInterfaceAndFile(bytes)
                     exifInterface = exif
                     currentImage = tmpFile
@@ -85,9 +68,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
             }
             "isSupportedMimeType" -> {
                 val mimeType = call.arguments<String>()
-                if (mimeType == null) {
-                    return result.error("ARGUMENT_ERROR", "tag is required", null)
-                }
+                        ?: return result.error("ARGUMENT_ERROR", "tag is required", null)
 
                 return result.success(ExifInterface.isSupportedMimeType(mimeType))
             }
@@ -116,60 +97,43 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
             }
             "setAttribute" -> {
                 val tag = call.argument<String>("tag")
-                if (tag == null) {
-                    return result.error("ARGUMENT_ERROR", "tag is required", null)
-                }
+                        ?: return result.error("ARGUMENT_ERROR", "tag is required", null)
 
                 val tagValue = call.argument<String>("tagValue")
-                if (tagValue == null) {
-                    return result.error("ARGUMENT_ERROR", "tagValue is required", null)
-                }
+                        ?: return result.error("ARGUMENT_ERROR", "tagValue is required", null)
 
                 exif.setAttribute(tag, tagValue)
                 result.success(true)
             }
             "getAttribute" -> {
                 val tag = call.arguments<String>()
-                if (tag == null) {
-                    return result.error("ARGUMENT_ERROR", "tag is required", null)
-                }
+                        ?: return result.error("ARGUMENT_ERROR", "tag is required", null)
 
                 result.success(exif.getAttribute(tag))
             }
             "getAttributeDouble" -> {
                 val tag = call.arguments<String>()
-                if (tag == null) {
-                    return result.error("ARGUMENT_ERROR", "tag is required", null)
-
-                }
+                        ?: return result.error("ARGUMENT_ERROR", "tag is required", null)
 
                 val defaultValue = call.argument<Double>("defaultValue")
-                if (defaultValue == null) {
-                    return result.error("ARGUMENT_ERROR", "defaultValue is required", null)
-                }
+                        ?: return result.error("ARGUMENT_ERROR", "defaultValue is required", null)
 
                 val tagValue = exif.getAttributeDouble(tag, defaultValue)
                 result.success(tagValue)
             }
             "getAttributeInt" -> {
                 val tag = call.arguments<String>()
-                if (tag == null) {
-                    return result.error("ARGUMENT_ERROR", "tag is required", null)
-                }
+                        ?: return result.error("ARGUMENT_ERROR", "tag is required", null)
 
                 val defaultValue = call.argument<Int>("defaultValue")
-                if (defaultValue == null) {
-                    return result.error("ARGUMENT_ERROR", "defaultValue is required", null)
-                }
+                        ?: return result.error("ARGUMENT_ERROR", "defaultValue is required", null)
 
                 val tagValue = exif.getAttributeInt(tag, defaultValue)
                 result.success(tagValue)
             }
             "getAttributeRange" -> {
                 val tag = call.arguments<String>()
-                if (tag == null) {
-                    return result.error("ARGUMENT_ERROR", "tag is required", null)
-                }
+                        ?: return result.error("ARGUMENT_ERROR", "tag is required", null)
 
                 result.success(exif.getAttributeRange(tag))
             }
@@ -183,9 +147,7 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
             }
             "getAltitude" -> {
                 val defaultValue = call.arguments<Double>()
-                if (defaultValue == null) {
-                    return result.error("ARGUMENT_ERROR", "defaultValue is required", null)
-                }
+                        ?: return result.error("ARGUMENT_ERROR", "defaultValue is required", null)
 
                 val tagValue = exif.getAltitude(defaultValue)
                 result.success(tagValue)
@@ -230,25 +192,29 @@ public class FlutterExifPlugin : FlutterPlugin, MethodCallHandler {
             }
             "rotate" -> {
                 val degree = call.arguments<Int>()
-                if (degree == null) {
-                    return result.error("ARGUMENT_ERROR", "degree is required", null)
-                }
+                        ?: return result.error("ARGUMENT_ERROR", "degree is required", null)
                 exif.rotate(degree)
                 result.success(true)
             }
             "setLatLong" -> {
                 val latitude = call.argument<Double>("latitude")
-                if (latitude == null) {
-                    return result.error("ARGUMENT_ERROR", "latitude is required", null)
-                }
+                        ?: return result.error("ARGUMENT_ERROR", "latitude is required", null)
 
                 val longitude = call.argument<Double>("longitude")
-                if (longitude == null) {
-                    return result.error("ARGUMENT_ERROR", "longitude is required", null)
-                }
+                        ?: return result.error("ARGUMENT_ERROR", "longitude is required", null)
 
                 try {
                     exif.setLatLong(latitude, longitude)
+                    result.success(true)
+                } catch (e: Exception) {
+                    result.error("ERROR", e.message, null)
+                }
+            }
+            "setAltitude" -> {
+                val altitude = call.argument<Double>("altitude")
+                        ?: return result.error("ARGUMENT_ERROR", "altitude is required", null)
+                try {
+                    exif.setAltitude(altitude)
                     result.success(true)
                 } catch (e: Exception) {
                     result.error("ERROR", e.message, null)

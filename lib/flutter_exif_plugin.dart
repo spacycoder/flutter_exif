@@ -1,10 +1,11 @@
 import 'dart:async';
-
 import 'dart:typed_data';
+
 import 'package:flutter/services.dart';
 
 class FlutterExif {
   static const channel = MethodChannel("flutter_exif_plugin_channel");
+
   FlutterExif.fromPath(String pathToImage) {
     channel.invokeMethod("initPath", pathToImage);
   }
@@ -118,4 +119,8 @@ class FlutterExif {
   Future<void> setLatLong(double latitude, double longitude) =>
       channel.invokeMethod<bool>(
           "setLatLong", {"latitude": latitude, "longitude": longitude});
+
+  /// Sets the altitude value.
+  Future<void> setAltitude(double altitude) =>
+      channel.invokeMethod<bool>("setAltitude", {"altitude": altitude});
 }
