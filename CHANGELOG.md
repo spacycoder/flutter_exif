@@ -15,3 +15,6 @@ Fix wrong return value from setLatLong
 
 ## 1.0.0
 Support null safety
+
+## 1.1.0
+Add setAltitude method and upgrade dependencies [#5](https://github.com/spacycoder/flutter_exif/pull/6)
